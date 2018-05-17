@@ -16,7 +16,7 @@ class Weather(object):
     def __init__(self, key):
         self.key = key  # Your Secret Key
 
-    def get_data(self, latitude=None, longitude=None, **options):
+    def get_data(self, latitude=None, longitude=None, options=None):
         """
         Method for requesting data from the site.
         Метод для запроса данных с сайта.
