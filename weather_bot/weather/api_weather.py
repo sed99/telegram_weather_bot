@@ -14,6 +14,10 @@ class Weather(object):
     """
 
     def __init__(self, key):
+        if not isinstance(key, str):
+            e = f"The key must be of type: <class 'string'>. You key = {type(key)}"
+            raise SecretKeyError(e)
+
         self.key = key  # Your Secret Key
 
     def get_data(self, latitude=None, longitude=None, options=None):
@@ -23,15 +27,20 @@ class Weather(object):
         """
         try:
             if not isinstance(latitude, float):
-                raise InputError("<class 'float'>, don't %s" % (type(latitude)))
+                e = f"latitude = <class 'float'>. You latitude = {type(latitude)}"
+                raise InputError(e)
             if not isinstance(longitude, float):
-                raise InputError("<class 'float'>, don't %s" % (type(longitude)))
+                e = f"longitude = <class 'float'>, You longitude = {type(longitude)}"
+                raise InputError(e)
 
             url_str = "https://api.darksky.net/forecast"
             coord = "%f,%f" % (latitude, longitude)
             key = self.key
             answer = requests.get("%s/%s/%s" % (url_str, key, coord), params=options, timeout=3)
-            return answer.json()
+            if answer.status_code is 200:
+                return answer.json()
+            else:
+                return answer.status_code
         except WeatherError as e:
             raise e
 

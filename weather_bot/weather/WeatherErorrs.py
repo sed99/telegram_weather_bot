@@ -8,3 +8,7 @@ class WeatherError(Exception):
 
 class InputError(WeatherError):
     pass
+
+
+class SecretKeyError(WeatherError):
+    pass
